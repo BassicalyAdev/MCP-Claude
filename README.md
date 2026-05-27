@@ -72,15 +72,36 @@ cp plugin/ClaudeMCP.lua ~/Documents/Roblox/Plugins/
 
 ### Run
 
+**Step 1 — Start the server:**
+
+Open a terminal (Command Prompt, PowerShell, or any terminal) and navigate to the project folder:
+
+```bash
+cd "MCP Claude"
+npm start
+```
+
+You should see:
+```
+  Roblox Studio AI Server
+  ========================
+  Server running on http://localhost:3636
+  Waiting for Roblox Studio plugin to connect...
+```
+
+**Keep this terminal window open** — the server must be running while you use the plugin.
+
+> **Tip:** If you used `setup.bat`, you can also double-click `start.bat` (if it exists) or create a shortcut. The server runs on `http://localhost:3636` by default.
+
+**Step 2 — Use it in Roblox Studio:**
+
 1. Open Roblox Studio — the plugin loads automatically with an "AI Assistant" panel
-2. Start the server:
-   ```bash
-   npm start
-   ```
-3. In Studio, click the **gear icon** in the plugin panel
-4. Enter your API key (or configure Ollama URL)
-5. Select your AI provider from the dropdown
-6. Start chatting!
+2. Click the **gear icon** in the plugin panel
+3. Enter your API key (or configure Ollama URL)
+4. Select your AI provider from the dropdown
+5. Start chatting!
+
+> **Note:** The server must be running (`npm start`) BEFORE you open the plugin in Studio. If the status dot is red, the server isn't running or the port is wrong.
 
 ### Environment Variables (Optional)
 
