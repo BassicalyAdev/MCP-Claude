@@ -150,7 +150,7 @@ export class ChatEngine {
         messages.push({
           role: "tool",
           content: JSON.stringify(result),
-          tool_call_id: tc.name,
+          tool_call_id: tc.id,
         });
       }
     }

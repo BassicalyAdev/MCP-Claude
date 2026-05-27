@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import "dotenv/config";
 import { startBridge } from "./bridge.js";
 
 const PORT = Number(process.env.PORT) || 3636;
@@ -13,11 +14,15 @@ async function main() {
   console.log(`  Chat API:      http://localhost:${PORT}/chat`);
   console.log(`  Providers:     http://localhost:${PORT}/providers`);
   console.log(`  Health:        http://localhost:${PORT}/health`);
-  console.log(`\n  Free AI providers:`);
-  console.log(`    Groq         - https://console.groq.com (free API key)`);
-  console.log(`    Gemini       - https://aistudio.google.com (free API key)`);
-  console.log(`    Ollama       - http://localhost:11434 (no key needed)`);
-  console.log(`    HuggingFace  - https://huggingface.co (free token)`);
+  console.log(`\n  Free AI providers (8 total):`);
+  console.log(`    Groq         - https://console.groq.com (fastest)`);
+  console.log(`    Gemini       - https://aistudio.google.com (best quality)`);
+  console.log(`    Ollama       - http://localhost:11434 (100% local)`);
+  console.log(`    HuggingFace  - https://huggingface.co (many models)`);
+  console.log(`    Claude       - https://console.anthropic.com (smart AI)`);
+  console.log(`    Mistral      - https://console.mistral.ai (fast EU AI)`);
+  console.log(`    DeepSeek     - https://platform.deepseek.com (code expert)`);
+  console.log(`    SambaNova    - https://cloud.sambanova.ai (free Llama)`);
   console.log(`\n  Waiting for Roblox Studio plugin to connect...\n`);
 }
 
