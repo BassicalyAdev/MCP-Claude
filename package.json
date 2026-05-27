@@ -1,0 +1,21 @@
+{
+  "name": "roblox-studio-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Claude to interact with Roblox Studio",
+  "type": "module",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.15.3",
+    "typescript": "^5.8.3"
+  }
+}
