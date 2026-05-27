@@ -72,14 +72,18 @@ cp plugin/ClaudeMCP.lua ~/Documents/Roblox/Plugins/
 
 ### Run
 
-**Step 1 — Start the server:**
+**Step 1 — Enable HTTP Requests in Roblox Studio:**
 
-Double-click **`start.bat`** in the project folder. A terminal window will open and the server will start.
+In Roblox Studio, go to **Game Settings > Security** and turn on **"Allow HTTP Requests"**. This is required for the plugin to talk to the server.
+
+**Step 2 — Start the server:**
+
+Double-click **`start.bat`** in the project folder. A terminal window will open and the server will start instantly.
 
 Or manually in a terminal:
 ```bash
 cd "MCP Claude"
-npm start
+node build/index.js
 ```
 
 You should see:
@@ -92,15 +96,19 @@ You should see:
 
 **Keep the terminal window open** — the server must be running while you use the plugin. Close it to stop the server.
 
-**Step 2 — Use it in Roblox Studio:**
+**Step 3 — Use it in Roblox Studio:**
 
 1. Open Roblox Studio — the plugin loads automatically with an "AI Assistant" panel
-2. Click the **gear icon** in the plugin panel
-3. Enter your API key (or configure Ollama URL)
-4. Select your AI provider from the dropdown
-5. Start chatting!
+2. The status dot should turn **green** (connected to server)
+3. Click the **gear icon** in the plugin panel
+4. Enter your API key (or configure Ollama URL)
+5. Select an AI provider from the dropdown
+6. Start chatting!
 
-> **Note:** The server must be running (`npm start`) BEFORE you open the plugin in Studio. If the status dot is red, the server isn't running or the port is wrong.
+> **Troubleshooting:** If the status dot stays **red**:
+> - Make sure `start.bat` is running (the terminal window is open)
+> - Make sure "Allow HTTP Requests" is enabled in Game Settings > Security
+> - The server must be running BEFORE you open Studio
 
 ### Environment Variables (Optional)
 

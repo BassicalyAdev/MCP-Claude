@@ -804,7 +804,7 @@ local function sendMessage()
 				end
 			end
 		else
-			addChatMessage("error", "Could not connect to server. Make sure the server is running:\n  npm start")
+			addChatMessage("error", "Could not connect to server.\n\n1. Make sure the server is running (double-click start.bat)\n2. In Studio: Game Settings > Security > Enable 'Allow HTTP Requests'\n3. Server must be running BEFORE opening Studio")
 		end
 	end)
 end
@@ -826,7 +826,7 @@ task.spawn(function()
 
 		if ok then
 			local data = HttpService:JSONDecode(response)
-			state.serverConnected = data.connected or false
+			state.serverConnected = data.status == "ok"
 		else
 			state.serverConnected = false
 		end

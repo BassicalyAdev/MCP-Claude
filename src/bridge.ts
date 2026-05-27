@@ -109,6 +109,7 @@ export function startBridge(port: number = 3636): Promise<void> {
 
   app.get("/health", (_req, res) => {
     res.json({
+      status: "ok",
       connected: pluginConnected && Date.now() - lastPollTime < 5000,
       pendingRequests: requestQueue.length,
       lastPoll: lastPollTime,
