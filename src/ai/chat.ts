@@ -9,6 +9,10 @@ import { GroqProvider } from "./groq.js";
 import { GeminiProvider } from "./gemini.js";
 import { OllamaProvider } from "./ollama.js";
 import { HuggingFaceProvider } from "./huggingface.js";
+import { ClaudeProvider } from "./claude.js";
+import { MistralProvider } from "./mistral.js";
+import { DeepSeekProvider } from "./deepseek.js";
+import { SambaNovaProvider } from "./sambanova.js";
 import { sendToPlugin } from "../bridge.js";
 import { getToolDefinitions } from "../tools.js";
 
@@ -38,6 +42,10 @@ export class ChatEngine {
     this.providers.set("Gemini", new GeminiProvider());
     this.providers.set("Ollama", new OllamaProvider());
     this.providers.set("HuggingFace", new HuggingFaceProvider());
+    this.providers.set("Claude", new ClaudeProvider());
+    this.providers.set("Mistral", new MistralProvider());
+    this.providers.set("DeepSeek", new DeepSeekProvider());
+    this.providers.set("SambaNova", new SambaNovaProvider());
   }
 
   getProviders() {
@@ -73,7 +81,7 @@ export class ChatEngine {
     if (config.model !== undefined) {
       (provider as any).model = config.model;
     }
-    if (config.baseUrl !== undefined && name === "Ollama") {
+    if (config.baseUrl !== undefined) {
       (provider as any).baseUrl = config.baseUrl;
     }
 

@@ -1,5 +1,5 @@
 -- ClaudeMCP Plugin for Roblox Studio
--- Multi-AI chat assistant with support for Groq, Gemini, Ollama, HuggingFace
+-- Multi-AI chat assistant with support for Groq, Gemini, Ollama, HuggingFace, Claude, Mistral, DeepSeek, SambaNova
 -- All providers are FREE to use
 --
 -- Install: Place this file in your Roblox Studio plugins folder
@@ -395,7 +395,7 @@ Instance.new("UICorner", dropdownFrame).CornerRadius = UDim.new(0, 6)
 local dropdownLayout = Instance.new("UIListLayout")
 dropdownLayout.Parent = dropdownFrame
 
-local providerNames = {"Groq", "Gemini", "Ollama", "HuggingFace"}
+local providerNames = {"Groq", "Gemini", "Ollama", "HuggingFace", "Claude", "Mistral", "DeepSeek", "SambaNova"}
 
 local function updateDropdown()
 	for _, child in ipairs(dropdownFrame:GetChildren()) do
@@ -465,7 +465,7 @@ settingsPanel.ScrollBarThickness = 5
 settingsPanel.ScrollBarImageColor3 = COLORS.accent
 settingsPanel.Visible = false
 settingsPanel.ZIndex = 5
-settingsPanel.CanvasSize = UDim2.new(0, 0, 0, 400)
+settingsPanel.CanvasSize = UDim2.new(0, 0, 0, 650)
 settingsPanel.Parent = main
 
 local settingsPadding = Instance.new("UIPadding")
@@ -516,11 +516,15 @@ local groqKeyInput = createSettingsField("Groq API Key", "gsk_... (free at conso
 local geminiKeyInput = createSettingsField("Gemini API Key", "AIza... (free at aistudio.google.com)", 60)
 local hfKeyInput = createSettingsField("HuggingFace Token", "hf_... (free at huggingface.co)", 120)
 local ollamaUrlInput = createSettingsField("Ollama URL", "http://localhost:11434", 180)
+local claudeKeyInput = createSettingsField("Claude API Key", "sk-ant-... (free tier at console.anthropic.com)", 240)
+local mistralKeyInput = createSettingsField("Mistral API Key", "... (free at console.mistral.ai)", 300)
+local deepseekKeyInput = createSettingsField("DeepSeek API Key", "... (free at platform.deepseek.com)", 360)
+local sambanovaKeyInput = createSettingsField("SambaNova API Key", "... (free at cloud.sambanova.ai)", 420)
 
 -- Save button
 local saveBtn = Instance.new("TextButton")
 saveBtn.Size = UDim2.new(1, 0, 0, 36)
-saveBtn.Position = UDim2.new(0, 0, 0, 260)
+saveBtn.Position = UDim2.new(0, 0, 0, 500)
 saveBtn.BackgroundColor3 = COLORS.accent
 saveBtn.BorderSizePixel = 0
 saveBtn.Text = "Save Settings"
@@ -533,10 +537,10 @@ Instance.new("UICorner", saveBtn).CornerRadius = UDim.new(0, 6)
 
 -- Help text
 local helpText = Instance.new("TextLabel")
-helpText.Size = UDim2.new(1, 0, 0, 80)
-helpText.Position = UDim2.new(0, 0, 0, 310)
+helpText.Size = UDim2.new(1, 0, 0, 100)
+helpText.Position = UDim2.new(0, 0, 0, 550)
 helpText.BackgroundTransparency = 1
-helpText.Text = "All providers are FREE.\n\nGroq: Fastest. Sign up at console.groq.com\nGemini: Best quality. Sign up at aistudio.google.com\nOllama: 100% local. Install Ollama on your machine\nHuggingFace: Many models. Sign up at huggingface.co"
+helpText.Text = "All providers are FREE.\n\nGroq: Fastest. console.groq.com\nGemini: Best quality. aistudio.google.com\nOllama: 100% local. No key needed\nHuggingFace: Many models. huggingface.co\nClaude: Smart AI. console.anthropic.com\nMistral: Fast EU AI. console.mistral.ai\nDeepSeek: Code expert. platform.deepseek.com\nSambaNova: Free Llama. cloud.sambanova.ai"
 helpText.TextColor3 = COLORS.textDim
 helpText.TextSize = 11
 helpText.Font = Enum.Font.Gotham
@@ -552,6 +556,10 @@ saveBtn.MouseButton1Click:Connect(function()
 		{ provider = "Gemini", apiKey = geminiKeyInput.Text },
 		{ provider = "HuggingFace", apiKey = hfKeyInput.Text },
 		{ provider = "Ollama", baseUrl = ollamaUrlInput.Text ~= "" and ollamaUrlInput.Text or nil },
+		{ provider = "Claude", apiKey = claudeKeyInput.Text },
+		{ provider = "Mistral", apiKey = mistralKeyInput.Text },
+		{ provider = "DeepSeek", apiKey = deepseekKeyInput.Text },
+		{ provider = "SambaNova", apiKey = sambanovaKeyInput.Text },
 	}
 
 	for _, cfg in ipairs(configs) do
@@ -731,7 +739,7 @@ local function addChatMessage(role, text)
 end
 
 -- Welcome
-addChatMessage("system", "Welcome to AI Assistant for Roblox Studio!\n\nSupported AI providers (all free):\n  Groq - Fastest inference\n  Gemini - Best quality\n  Ollama - 100% local\n  HuggingFace - Many models\n\nSelect a provider above, configure your API key in Settings (⚙), then start chatting!\n\nThe AI can read, write, and modify your Roblox project.")
+addChatMessage("system", "Welcome to AI Assistant for Roblox Studio!\n\nSupported AI providers (all free):\n  Groq - Fastest inference\n  Gemini - Best quality\n  Ollama - 100% local\n  HuggingFace - Many models\n  Claude - Smart AI by Anthropic\n  Mistral - Fast EU AI\n  DeepSeek - Code expert\n  SambaNova - Free Llama models\n\nSelect a provider above, configure your API key in Settings (⚙), then start chatting!\n\nThe AI can read, write, and modify your Roblox project.")
 
 -- ============================================================
 -- SEND MESSAGE

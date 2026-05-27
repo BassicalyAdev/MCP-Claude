@@ -10,6 +10,10 @@ Multi-AI assistant that lives inside Roblox Studio. Chat with AI directly in Stu
 | **Gemini** | Fast | Best | Free API key at [aistudio.google.com](https://aistudio.google.com) |
 | **Ollama** | Depends | Good | 100% local, no key needed. Install [Ollama](https://ollama.com) |
 | **HuggingFace** | Slower | Good | Free token at [huggingface.co](https://huggingface.co) |
+| **Claude** | Fast | Excellent | Free tier API key at [console.anthropic.com](https://console.anthropic.com) |
+| **Mistral** | Fast | Great | Free API key at [console.mistral.ai](https://console.mistral.ai) |
+| **DeepSeek** | Fast | Great | Free API key at [platform.deepseek.com](https://platform.deepseek.com) |
+| **SambaNova** | Fast | Great | Free API key at [cloud.sambanova.ai](https://cloud.sambanova.ai) |
 
 ## How It Works
 
@@ -18,7 +22,7 @@ You type in Studio plugin chat
         ↓
 Plugin sends message to server (HTTP POST /chat)
         ↓
-Server calls AI provider (Groq/Gemini/Ollama/HuggingFace)
+Server calls AI provider (Groq/Gemini/Ollama/HuggingFace/Claude/Mistral/DeepSeek/SambaNova)
         ↓
 AI requests tool calls (read_script, write_script, etc.)
         ↓
@@ -39,7 +43,7 @@ No Claude Code CLI required. The server is standalone — just run it and chat.
 
 - [Node.js](https://nodejs.org/) v18+
 - [Roblox Studio](https://create.roblox.com/)
-- One free API key (Groq, Gemini, or HuggingFace) — or Ollama for 100% local use
+- One free API key (Groq, Gemini, Claude, Mistral, DeepSeek, SambaNova, or HuggingFace) — or Ollama for 100% local use
 
 ### Setup
 
@@ -115,7 +119,7 @@ cp .env.example .env
 
 The dockable panel in Studio has:
 
-- **Provider dropdown** — switch between Groq, Gemini, Ollama, HuggingFace
+- **Provider dropdown** — switch between Groq, Gemini, Ollama, HuggingFace, Claude, Mistral, DeepSeek, SambaNova
 - **Settings** (gear icon) — configure API keys and Ollama URL
 - **Chat area** — conversation with the AI, tool call notifications
 - **Status dot** — green = connected, red = disconnected, yellow = thinking
@@ -139,6 +143,10 @@ The dockable panel in Studio has:
 - **`ai/gemini.ts`** — Google Gemini API client
 - **`ai/ollama.ts`** — Ollama local API client
 - **`ai/huggingface.ts`** — HuggingFace Inference API client
+- **`ai/claude.ts`** — Anthropic Claude API client
+- **`ai/mistral.ts`** — Mistral AI API client
+- **`ai/deepseek.ts`** — DeepSeek API client
+- **`ai/sambanova.ts`** — SambaNova API client
 - **`ai/chat.ts`** — Chat engine with tool execution loop
 
 ### Plugin (`plugin/`)
