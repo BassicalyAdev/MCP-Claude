@@ -1,31 +1,37 @@
-# MCP Claude - Roblox Studio Integration
+# AI Assistant for Roblox Studio
 
-An MCP (Model Context Protocol) server that lets Claude read, write, and modify your Roblox Studio project. Includes a dockable plugin GUI for status monitoring.
+Multi-AI assistant that lives inside Roblox Studio. Chat with AI directly in Studio to read, write, and modify your project. Supports multiple free AI providers — no paid API keys required.
+
+## Supported AI Providers (All Free)
+
+| Provider | Speed | Quality | Setup |
+|----------|-------|---------|-------|
+| **Groq** | Fastest | Great | Free API key at [console.groq.com](https://console.groq.com) |
+| **Gemini** | Fast | Best | Free API key at [aistudio.google.com](https://aistudio.google.com) |
+| **Ollama** | Depends | Good | 100% local, no key needed. Install [Ollama](https://ollama.com) |
+| **HuggingFace** | Slower | Good | Free token at [huggingface.co](https://huggingface.co) |
 
 ## How It Works
 
 ```
-Claude CLI  <──stdio──>  MCP Server (Node.js)  <──HTTP──>  Roblox Plugin (Lua)
-                              port 3636              poll/result
+You type in Studio plugin chat
+        ↓
+Plugin sends message to server (HTTP POST /chat)
+        ↓
+Server calls AI provider (Groq/Gemini/Ollama/HuggingFace)
+        ↓
+AI requests tool calls (read_script, write_script, etc.)
+        ↓
+Server sends tool requests to plugin (HTTP GET /poll)
+        ↓
+Plugin executes in Studio, posts results back
+        ↓
+Server feeds results to AI, gets final response
+        ↓
+Plugin displays AI response in chat
 ```
 
-The MCP server runs locally and communicates with a Roblox Studio plugin via HTTP polling. Claude can browse your game hierarchy, read/write scripts, modify properties, search instances, and execute arbitrary Lua code.
-
-## Features
-
-| Tool | Description |
-|------|-------------|
-| `get_hierarchy` | Browse the Explorer tree |
-| `read_script` | Read script source code |
-| `write_script` | Write/overwrite scripts |
-| `create_script` | Create Script, LocalScript, or ModuleScript |
-| `delete_instance` | Remove instances |
-| `get_properties` | Read all properties of an instance |
-| `set_property` | Set Vector3, Color3, CFrame, string, number, bool |
-| `execute_lua` | Run arbitrary Lua in Studio |
-| `search_instances` | Find instances by ClassName or Name |
-| `get_selection` | Get current Studio selection |
-| `set_selection` | Set the Studio selection |
+No Claude Code CLI required. The server is standalone — just run it and chat.
 
 ## Quick Start
 
@@ -33,7 +39,7 @@ The MCP server runs locally and communicates with a Roblox Studio plugin via HTT
 
 - [Node.js](https://nodejs.org/) v18+
 - [Roblox Studio](https://create.roblox.com/)
-- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code)
+- One free API key (Groq, Gemini, or HuggingFace) — or Ollama for 100% local use
 
 ### Setup
 
@@ -50,7 +56,7 @@ npm install
 npm run build
 ```
 
-Copy the plugin to Roblox Studio's plugins folder:
+Copy the plugin to Roblox Studio:
 
 ```bash
 # Windows
@@ -60,87 +66,113 @@ copy plugin\ClaudeMCP.lua "%LOCALAPPDATA%\Roblox\Plugins\"
 cp plugin/ClaudeMCP.lua ~/Documents/Roblox/Plugins/
 ```
 
-### Configure Claude Code
-
-Add to your Claude Code MCP settings (`settings.json`):
-
-```json
-{
-  "mcpServers": {
-    "roblox-studio": {
-      "command": "node",
-      "args": ["C:/path/to/MCP Claude/build/index.js"]
-    }
-  }
-}
-```
-
 ### Run
 
-1. Open Roblox Studio — the plugin loads automatically with a "Claude AI" panel
-2. Start the MCP server:
+1. Open Roblox Studio — the plugin loads automatically with an "AI Assistant" panel
+2. Start the server:
    ```bash
    npm start
    ```
-3. Use Claude Code CLI — Claude can now see and modify your project
+3. In Studio, click the **gear icon** in the plugin panel
+4. Enter your API key (or configure Ollama URL)
+5. Select your AI provider from the dropdown
+6. Start chatting!
+
+### Environment Variables (Optional)
+
+You can also set API keys via `.env` file:
+
+```bash
+cp .env.example .env
+# Edit .env with your keys
+```
+
+## What the AI Can Do
+
+| Tool | Description |
+|------|-------------|
+| `get_hierarchy` | Browse the Explorer tree |
+| `read_script` | Read script source code |
+| `write_script` | Write/overwrite scripts |
+| `create_script` | Create Script, LocalScript, or ModuleScript |
+| `delete_instance` | Remove instances |
+| `get_properties` | Read all properties of an instance |
+| `set_property` | Set Vector3, Color3, CFrame, string, number, bool |
+| `execute_lua` | Run arbitrary Lua in Studio |
+| `search_instances` | Find instances by ClassName or Name |
+| `get_selection` | Get current Studio selection |
+| `set_selection` | Set the Studio selection |
+
+### Example Prompts
+
+- "Create a part in Workspace called MyPart"
+- "Show me all scripts in ServerScriptService"
+- "Make all parts in the model red and anchored"
+- "Create a sprint script for the player"
+- "Find all Part instances and make them transparent"
 
 ## Plugin GUI
 
-The Roblox Studio plugin provides a dockable panel with:
+The dockable panel in Studio has:
 
-- **Connection status** — green dot when connected to MCP server
-- **Request counter** — shows how many operations Claude has performed
-- **Tool call log** — displays each tool call as it happens
-- **Chat interface** — type `/help` for available commands
+- **Provider dropdown** — switch between Groq, Gemini, Ollama, HuggingFace
+- **Settings** (gear icon) — configure API keys and Ollama URL
+- **Chat area** — conversation with the AI, tool call notifications
+- **Status dot** — green = connected, red = disconnected, yellow = thinking
 
-### Commands
+### Chat Commands
 
 | Command | Description |
 |---------|-------------|
-| `/help` | Show available commands |
-| `/status` | Show connection info and request count |
-| `/clear` | Clear the chat log |
+| `/help` | Show help message |
+| `/clear` | Clear the chat |
 
 ## Architecture
 
-### MCP Server (`src/`)
+### Server (`src/`)
 
-- **`index.ts`** — Entry point. Creates the MCP server with stdio transport and starts the HTTP bridge.
-- **`bridge.ts`** — Express HTTP server on port 3636. Manages a request queue that the Roblox plugin polls. Handles request/response matching with UUIDs and 30s timeouts.
-- **`tools.ts`** — Registers all 11 MCP tools with Zod schema validation. Each tool sends its request to the plugin via the bridge.
+- **`index.ts`** — Entry point, starts Express server on port 3636
+- **`bridge.ts`** — HTTP endpoints: `/chat`, `/poll`, `/result`, `/providers`, `/config`, `/health`
+- **`tools.ts`** — 11 tool definitions (JSON Schema format)
+- **`ai/provider.ts`** — AI provider interface
+- **`ai/groq.ts`** — Groq API client
+- **`ai/gemini.ts`** — Google Gemini API client
+- **`ai/ollama.ts`** — Ollama local API client
+- **`ai/huggingface.ts`** — HuggingFace Inference API client
+- **`ai/chat.ts`** — Chat engine with tool execution loop
 
-### Roblox Plugin (`plugin/`)
+### Plugin (`plugin/`)
 
-- **`ClaudeMCP.lua`** — Single unified plugin file. Runs an HTTP polling loop (150ms interval) that fetches pending requests from the bridge, executes them using the Roblox API, and posts results back. Also creates the dockable GUI.
+- **`ClaudeMCP.lua`** — Full plugin with chat UI, provider selector, settings panel, and tool execution
 
-### Communication Pattern
+### Communication
 
-Roblox Studio's HttpService can only make outgoing requests, so the bridge uses a polling pattern:
+Roblox Studio can't host HTTP servers, so the plugin polls:
 
-1. Claude calls an MCP tool
-2. MCP server queues the request
-3. Plugin polls `GET /poll` and receives the request
-4. Plugin executes the operation in Studio
-5. Plugin posts result to `POST /result`
-6. MCP server resolves the tool call
+1. User sends message in plugin chat
+2. Plugin POSTs to `/chat` on the server
+3. Server calls the AI provider
+4. AI returns tool calls → server queues them
+5. Plugin polls `GET /poll`, executes tools, POSTs results to `/result`
+6. Server feeds results back to AI until done
+7. Final response sent back to plugin
 
 ## Development
 
 ```bash
-# Watch mode (auto-rebuild on changes)
+# Watch mode
 npm run dev
 
-# Build once
+# Build
 npm run build
 
-# Start server
+# Start
 npm start
 ```
 
-The bridge port can be configured via environment variable:
-
+Change port:
 ```bash
-BRIDGE_PORT=4000 npm start
+PORT=4000 npm start
 ```
 
 ## License

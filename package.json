@@ -1,7 +1,7 @@
 {
-  "name": "roblox-studio-mcp",
-  "version": "1.0.0",
-  "description": "MCP server for Claude to interact with Roblox Studio",
+  "name": "roblox-studio-ai",
+  "version": "2.0.0",
+  "description": "Multi-AI server for Roblox Studio - works with Groq, Gemini, Ollama, HuggingFace (all free)",
   "type": "module",
   "main": "build/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.1",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2"
   },
   "devDependencies": {

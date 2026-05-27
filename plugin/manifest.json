@@ -1,7 +1,0 @@
-{
-  "name": "Claude AI for Roblox Studio",
-  "description": "MCP-powered AI assistant that can read, write, and modify your Roblox Studio project through Claude",
-  "version": "1.0.0",
-  "authors": ["Claude MCP"],
-  "dependencies": {}
-}

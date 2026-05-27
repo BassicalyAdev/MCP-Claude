@@ -1,6 +1,6 @@
 @echo off
 echo ========================================
-echo  Claude AI for Roblox Studio - Setup
+echo  AI Assistant for Roblox Studio - Setup
 echo ========================================
 echo.
 
@@ -21,7 +21,7 @@ if %errorlevel% neq 0 (
 )
 
 echo.
-echo [2/3] Building MCP server...
+echo [2/3] Building server...
 call npm run build
 if %errorlevel% neq 0 (
     echo [ERROR] Build failed
@@ -41,11 +41,16 @@ echo ========================================
 echo  Setup complete!
 echo ========================================
 echo.
+echo Free AI providers:
+echo   Groq         - https://console.groq.com
+echo   Gemini       - https://aistudio.google.com
+echo   Ollama       - https://ollama.com (local, no key)
+echo   HuggingFace  - https://huggingface.co
+echo.
 echo To use:
 echo   1. Open Roblox Studio (plugin loads automatically)
 echo   2. Run: npm start
-echo   3. Use Claude Code CLI to interact with your project
-echo.
-echo MCP Server command: npm start
+echo   3. Click the gear icon in the plugin to set your API key
+echo   4. Select an AI provider and start chatting!
 echo.
 pause

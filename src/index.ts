@@ -1,36 +1,27 @@
 #!/usr/bin/env node
 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { registerTools } from "./tools.js";
 import { startBridge } from "./bridge.js";
 
-const BRIDGE_PORT = Number(process.env.BRIDGE_PORT) || 3636;
+const PORT = Number(process.env.PORT) || 3636;
 
 async function main() {
-  // Start the HTTP bridge that the Roblox plugin connects to
-  await startBridge(BRIDGE_PORT);
-
-  // Create MCP server
-  const server = new McpServer({
-    name: "roblox-studio-mcp",
-    version: "1.0.0",
-  });
-
-  // Register all tools
-  registerTools(server);
-
-  // Connect via stdio transport
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
-
-  // Log to stderr (stdout is reserved for MCP protocol)
-  process.stderr.write(
-    `Roblox Studio MCP server running. Bridge on port ${BRIDGE_PORT}\n`
-  );
+  await startBridge(PORT);
+  console.log(`\n  Roblox Studio AI Server`);
+  console.log(`  ========================`);
+  console.log(`  Server running on http://localhost:${PORT}`);
+  console.log(`  Plugin polls:  http://localhost:${PORT}/poll`);
+  console.log(`  Chat API:      http://localhost:${PORT}/chat`);
+  console.log(`  Providers:     http://localhost:${PORT}/providers`);
+  console.log(`  Health:        http://localhost:${PORT}/health`);
+  console.log(`\n  Free AI providers:`);
+  console.log(`    Groq         - https://console.groq.com (free API key)`);
+  console.log(`    Gemini       - https://aistudio.google.com (free API key)`);
+  console.log(`    Ollama       - http://localhost:11434 (no key needed)`);
+  console.log(`    HuggingFace  - https://huggingface.co (free token)`);
+  console.log(`\n  Waiting for Roblox Studio plugin to connect...\n`);
 }
 
 main().catch((err) => {
-  process.stderr.write(`Fatal error: ${err}\n`);
+  console.error(`Fatal error: ${err}`);
   process.exit(1);
 });
