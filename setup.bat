@@ -41,15 +41,19 @@ echo ========================================
 echo  Setup complete!
 echo ========================================
 echo.
-echo Free AI providers:
+echo Free AI providers (8 total):
 echo   Groq         - https://console.groq.com
 echo   Gemini       - https://aistudio.google.com
 echo   Ollama       - https://ollama.com (local, no key)
 echo   HuggingFace  - https://huggingface.co
+echo   Claude       - https://console.anthropic.com
+echo   Mistral      - https://console.mistral.ai
+echo   DeepSeek     - https://platform.deepseek.com
+echo   SambaNova    - https://cloud.sambanova.ai
 echo.
 echo To use:
 echo   1. Open Roblox Studio (plugin loads automatically)
-echo   2. Run: npm start
+echo   2. Double-click start.bat to start the server
 echo   3. Click the gear icon in the plugin to set your API key
 echo   4. Select an AI provider and start chatting!
 echo.

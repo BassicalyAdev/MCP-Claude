@@ -74,8 +74,9 @@ cp plugin/ClaudeMCP.lua ~/Documents/Roblox/Plugins/
 
 **Step 1 — Start the server:**
 
-Open a terminal (Command Prompt, PowerShell, or any terminal) and navigate to the project folder:
+Double-click **`start.bat`** in the project folder. A terminal window will open and the server will start.
 
+Or manually in a terminal:
 ```bash
 cd "MCP Claude"
 npm start
@@ -89,9 +90,7 @@ You should see:
   Waiting for Roblox Studio plugin to connect...
 ```
 
-**Keep this terminal window open** — the server must be running while you use the plugin.
-
-> **Tip:** If you used `setup.bat`, you can also double-click `start.bat` (if it exists) or create a shortcut. The server runs on `http://localhost:3636` by default.
+**Keep the terminal window open** — the server must be running while you use the plugin. Close it to stop the server.
 
 **Step 2 — Use it in Roblox Studio:**
 
